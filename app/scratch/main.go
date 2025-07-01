@@ -46,6 +46,17 @@ func run() error {
 		return fmt.Errorf("unable to sign transaction: %w", err)
 	}
 
-	fmt.Println(hexutil.Encode(sig))
+	fmt.Println("SIG: ", hexutil.Encode(sig))
+
+	// =================================================================================
+	// OVER THE WIRE
+
+	publicKey, err := crypto.SigToPub(v, sig)
+	if err != nil {
+		return fmt.Errorf("unable to recover public key from signature: %w", err)
+	}
+
+	fmt.Println("PUB: ", crypto.PubkeyToAddress(*publicKey).String())
+
 	return nil
 }
