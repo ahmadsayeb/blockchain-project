@@ -81,7 +81,8 @@ func run() error {
 	fmt.Println("SIG: ", hexutil.Encode(sig2))
 
 	// =================================================================================
-
+	// had hard time understand what are we trying to accomplish:
+	// basically we are using the previous sginature to acquire a new transactions public address which is wrong!!!
 	// imagine you misspell it, this is scary! your public address changes!
 	// but you can have from as the public address so you can validate!!!
 	tx2 := Tx{
