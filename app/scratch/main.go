@@ -38,8 +38,10 @@ func run() error {
 	if err != nil {
 		return fmt.Errorf("unable to marshal %w", err)
 	}
+	// salt with our stamp
+	stamp := []byte(fmt.Sprintf("\x19Ardan Signed Message:\n%d", len(data)))
 
-	v := crypto.Keccak256(data)
+	v := crypto.Keccak256(stamp, data)
 
 	sig, err := crypto.Sign(v, privateKey)
 	if err != nil {
@@ -71,7 +73,9 @@ func run() error {
 		return fmt.Errorf("unable to marshal %w", err)
 	}
 
-	v2 := crypto.Keccak256(data)
+	stamp = []byte(fmt.Sprintf("\x19Ardan Signed Message:\n%d", len(data)))
+
+	v2 := crypto.Keccak256(stamp, data)
 
 	sig2, err := crypto.Sign(v2, privateKey)
 	if err != nil {
@@ -87,7 +91,7 @@ func run() error {
 	// but you can have from as the public address so you can validate!!!
 	tx2 := Tx{
 		FromID: "0xF01813E4B85e178A83e29B8E7bF26BD830a25f32",
-		ToID:   "Franks",
+		ToID:   "Frank",
 		Value:  250,
 	}
 
@@ -96,7 +100,9 @@ func run() error {
 		return fmt.Errorf("unable to marshal %w", err)
 	}
 
-	v2 = crypto.Keccak256(data)
+	stamp = []byte(fmt.Sprintf("\x19Ardan Signed Message:\n%d", len(data)))
+
+	v2 = crypto.Keccak256(stamp, data)
 
 	publicKey, err = crypto.SigToPub(v2, sig2)
 	if err != nil {
